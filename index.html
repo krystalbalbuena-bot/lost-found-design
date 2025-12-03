@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Lost & Found</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+
+    <!-- Slide-out Sidebar -->
+    <aside id="sidebar" class="sidebar" aria-hidden="true">
+  <div class="sidebar-inner card">
+    <div class="sidebar-brand">
+      <h2>Menu</h2>
+      <button id="closeMenu" class="icon-btn">✕</button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <button class="side-link" data-target="view-items">Items</button>
+      <button class="side-link" data-target="view-inventory">
+        Inventory <span id="inventoryCount" class="badge">0</span>
+      </button>
+      <button class="side-link" data-target="view-deleted">Deleted</button>
+
+      <hr/>
+
+      <div class="side-actions">
+        <button id="exportFilteredCsv" class="ghost">Export Filtered CSV</button>
+        <button id="exportAllCsv" class="ghost">Export All CSV</button>
+        <button id="exportAllPdf" class="ghost">Export All (Print/PDF)</button>
+      </div>
+
+      <hr/>
+      <div id="authArea"></div>
+    </nav>
+  </div>
+</aside>
+
+
+    <header class="topbar">
+  <div class="brand">
+    <div class="logo-wrap">
+      <!-- LOGO SELECTOR: Change data-logo-type to one of: "pin-tag" (default), "badge", "key", "suitcase", or "magnifier" -->
+      <!-- Then uncomment the SVG you want and comment out the others. -->
+
+      <!-- LOGO 1: PIN + TAG (location pin with item tag) -->
+      <svg class="logo anim-bounce" data-logo-type="pin-tag" viewBox="0 0 64 64" role="img" aria-label="Lost and Found logo" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="lg1" x1="0" x2="1">
+            <stop offset="0" stop-color="#ff006e" />
+            <stop offset="1" stop-color="#00ffff" />
+          </linearGradient>
+        </defs>
+        <path d="M32 6C22 6 14 14 14 24c0 11 12 25 17 30 5-5 17-19 17-30 0-10-8-18-16-18z" fill="none" stroke="url(#lg1)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="32" cy="24" r="6" fill="url(#lg1)" opacity="0.95" />
+        <rect x="40" y="38" width="12" height="8" rx="2" ry="2" fill="var(--card)" stroke="url(#lg1)" stroke-width="1.5" />
+      </svg>
+
+      <!-- LOGO 2: BADGE (shield/badge with exclamation) - UNCOMMENT TO USE -->
+      <!-- <svg class="logo anim-pulse" data-logo-type="badge" viewBox="0 0 64 64" role="img" aria-label="Lost and Found logo" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="lg2" x1="0" x2="1">
+            <stop offset="0" stop-color="#6ee7b7" />
+            <stop offset="1" stop-color="#3b82f6" />
+          </linearGradient>
+        </defs>
+        <path d="M32 8L48 16v12c0 12-16 20-16 20s-16-8-16-20V16l16-8z" fill="url(#lg2)" opacity="0.15" stroke="url(#lg2)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="32" y="35" font-size="24" font-weight="bold" text-anchor="middle" fill="url(#lg2)">!</text>
+      </svg> -->
+
+      <!-- LOGO 3: KEY (security/found item key) - UNCOMMENT TO USE -->
+      <!-- <svg class="logo anim-spin" data-logo-type="key" viewBox="0 0 64 64" role="img" aria-label="Lost and Found logo" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="lg3" x1="0" x2="1">
+            <stop offset="0" stop-color="#6ee7b7" />
+            <stop offset="1" stop-color="#3b82f6" />
+          </linearGradient>
+        </defs>
+        <circle cx="20" cy="32" r="10" fill="none" stroke="url(#lg3)" stroke-width="3"/>
+        <line x1="30" y1="32" x2="52" y2="32" stroke="url(#lg3)" stroke-width="3" stroke-linecap="round"/>
+        <rect x="48" y="28" width="8" height="8" fill="none" stroke="url(#lg3)" stroke-width="2.5" rx="1"/>
+      </svg> -->
+
+      <!-- LOGO 4: SUITCASE (travel/item storage) - UNCOMMENT TO USE -->
+      <!-- <svg class="logo anim-bounce" data-logo-type="suitcase" viewBox="0 0 64 64" role="img" aria-label="Lost and Found logo" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="lg4" x1="0" x2="1">
+            <stop offset="0" stop-color="#6ee7b7" />
+            <stop offset="1" stop-color="#3b82f6" />
+          </linearGradient>
+        </defs>
+        <rect x="14" y="18" width="36" height="28" rx="3" fill="url(#lg4)" opacity="0.15" stroke="url(#lg4)" stroke-width="2.5"/>
+        <rect x="22" y="10" width="20" height="8" rx="2" fill="none" stroke="url(#lg4)" stroke-width="2.5"/>
+        <line x1="24" y1="18" x2="40" y2="18" stroke="url(#lg4)" stroke-width="2"/>
+      </svg> -->
+
+      <!-- LOGO 5: MAGNIFIER (search/find) - UNCOMMENT TO USE -->
+      <!-- <svg class="logo anim-spin" data-logo-type="magnifier" viewBox="0 0 64 64" role="img" aria-label="Lost and Found logo" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="lg5" x1="0" x2="1">
+            <stop offset="0" stop-color="#6ee7b7" />
+            <stop offset="1" stop-color="#3b82f6" />
+          </linearGradient>
+        </defs>
+        <circle cx="24" cy="24" r="14" fill="none" stroke="url(#lg5)" stroke-width="3"/>
+        <line x1="36" y1="36" x2="50" y2="50" stroke="url(#lg5)" stroke-width="3" stroke-linecap="round"/>
+      </svg> -->
+
+      <div class="brand-text">
+        <h1>Lost &amp; Found</h1>
+        <p class="tagline">Report lost items or help return found ones</p>
+      </div>
+    </div>
+  </div>  <div class="controls">
+    <button id="darkToggle" class="icon-btn" title="Toggle theme">🌓</button>
+    <button id="menuBtn" class="icon-btn" title="Open menu">☰</button>
+  </div>
+</header>
+
+    <main class="layout">
+      <!-- Left panel (form) -->
+      <aside class="panel card" id="view-items">
+        <h2>Add an item</h2>
+
+        <form id="itemForm" class="form" role="form" aria-label="Add item form">
+          <div class="row">
+            <label>
+              <span class="label">Type</span>
+              <select id="type">
+                <option value="lost">LOST</option>
+                <option value="found">FOUND</option>
+              </select>
+            </label>
+
+            <label>
+              <span class="label">DATE</span>
+              <input id="date" type="date" />
+            </label>
+          </div>
+
+          <label>
+            <span class="label">TITLE</span>
+            <input id="title" type="text" placeholder="e.g. Black wallet" required />
+          </label>
+
+          <label>
+            <span class="label">CATEGORY</span>
+            <input id="category" type="text" placeholder="Wallet, Electronics, Bag" />
+          </label>
+
+          <label>
+            <span class="label">LOCATION</span>
+            <input id="location" type="text" placeholder="e.g. Library, Gate 3" />
+          </label>
+
+          <label>
+            <span class="label">DESCRIPTION</span>
+            <textarea id="description" placeholder="Details that help identify the item"></textarea>
+          </label>
+
+          <label class="file-label">
+            <span class="label">IMAGE (optional)</span>
+            <input id="imageInput" type="file" accept="image/*" />
+            <div id="preview" class="preview" aria-hidden="true">No photo</div>
+            <small class="hint">Max 5MB recommended. Preview shown above.</small>
+          </label>
+
+          <div class="actions">
+            <button type="submit" class="primary">ADD ITEM</button>
+            <button id="importSample" type="button" class="ghost">Add sample</button>
+          </div>
+        </form>
+      </aside>
+
+      <!-- Right content area: main list / inventory / deleted (views toggled by JS) -->
+      <section class="content">
+        <div class="card searchbar" id="list-controls">
+          <input id="search" type="search" aria-label="Search items" placeholder="Search title, category, location..." />
+          <div class="filters">
+            <select id="filterType">
+              <option value="all">All</option>
+              <option value="lost">Lost</option>
+              <option value="found">Found</option>
+            </select>
+            <select id="filterCategory"><option value="all">All categories</option></select>
+            <select id="sortCtrl">
+              <option value="newest">Newest</option>
+              <option value="oldest">Oldest</option>
+            </select>
+            <select id="filterVerified">
+              <option value="all">All</option>
+              <option value="verified">Verified</option>
+              <option value="unverified">Unverified</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Active items list -->
+        <div id="list" class="list view"></div>
+
+        <!-- Inventory view (hidden by default, shown via sidebar) -->
+        <div id="view-inventory" class="card view" style="display:none; margin-top:12px;">
+          <h2>Inventory (claimed)</h2>
+          <div id="inventory" class="list" style="margin-top:12px;"></div>
+        </div>
+
+        <!-- Deleted view (hidden by default) -->
+        <div id="view-deleted" class="card view" style="display:none; margin-top:12px;">
+          <h2>Deleted Items (Bin)</h2>
+          <div id="deleted" class="list" style="margin-top:12px;"></div>
+        </div>
+
+        <footer class="small muted">Data stored locally in your browser (localStorage). Use the menu → Export to save data.</footer>
+      </section>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
